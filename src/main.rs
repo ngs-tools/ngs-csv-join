@@ -1,6 +1,7 @@
-use std::{collections::HashMap, env, fs::File};
+use std::{env, fs::File};
 
 use csv::Reader;
+use indexmap::IndexMap;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -15,8 +16,8 @@ fn main() {
     println!("CSV {args:?}, with output to {out_file}");
 
     // Read files data into memory
-    let mut data_map = HashMap::new();
-    let mut map = HashMap::new();
+    let mut data_map = IndexMap::new();
+    let mut map = IndexMap::new();
     for p in args.iter() {
         let data = read_file(p);
         map.insert(p.clone(), data);
@@ -64,9 +65,9 @@ fn main() {
     write_column_data(&data_map, out_file);
 }
 
-fn write_column_data(columns: &HashMap<String, Vec<String>>, out_file: String) {
-    let mut fields: Vec<&str> = columns.keys().map(|k| k.as_str()).collect();
-    // fields.sort();
+fn write_column_data(columns: &IndexMap<String, Vec<String>>, out_file: String) {
+    let fields: Vec<&str> = columns.keys().map(|k| k.as_str()).collect();
+
     let mut iters: Vec<std::slice::Iter<'_, String>> =
         fields.iter().map(|f| columns[*f].iter()).collect();
 
