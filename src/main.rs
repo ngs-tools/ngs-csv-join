@@ -7,7 +7,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     let (out_file, args) = if args.len() <= 2 {
-        println!("Me want CSV file(s) !!");
+        println!("{} <out_file> input1.csv input2.csv ....", args[0]);
         return;
     } else {
         (args[1].clone(), args[2..].to_vec())
